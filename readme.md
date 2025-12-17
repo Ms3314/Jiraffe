@@ -1,10 +1,10 @@
 # Jiraffe 🦒
 
-An API to generate pretty stories using AI-powered story generation.
+An API to generate intuitve choice based stories using AI
 
 ## Overview
 
-Jiraffe is a FastAPI-based backend application that provides story generation capabilities. The application uses OpenAI's API to create engaging stories and includes job management functionality.
+Jiraffe is a FastAPI-based backend application that provides story generation capabilities. The application uses OpenAI's API to create engaging stories where the user can choose a descition through which the story changes.
 
 ## Features
 

@@ -8,8 +8,8 @@ from sqlalchemy.orm import Session
 # from backend.db.database import get_db , sessionLocal
 # from models.story import 
 from backend.schema.job import StoryJobResponse 
-from backend.schema.job import StoryJobCreate
-from backend.schema.story import CreateStoryRequest
+from backend.schema.job import StoryJobCreate , StoryJobStatusResponse , StoryJobResponse , StoryJobStatusRequest
+from backend.schema.story import CreateStoryRequest , CompleteStoryResponse
 from backend.db.database import sessionLocal # ?? idk what this does
 from backend.db.database import get_db
 
@@ -56,11 +56,13 @@ def create_story(
     
     # need to add background tasks and generate story
     background_tasks.add_task(
+        # the story will be generate in the background
         generate_story_task ,
         job_id=job_id ,
         theme=request.theme,
         session_id=session_id
     )
+    
     return job
     
     # pass
@@ -95,4 +97,25 @@ def generate_story_task(job_id:str , theme:str , session_id:str):
             pass
     finally:
         db.close()
+    
+
+@router.get("/{story_id}/status" , response_class=StoryJobStatusResponse)
+def get_job_status(
+    request :  StoryJobStatusRequest,
+    background_tasks : BackgroundTasks,
+    response : Response , 
+    db : Session = Depends(get_db)
+):
+    # I want to get the id 
+    # then i will search in the db for the status of the job of that id 
+    job = db.query(StoryJob).filter(
+        StoryJob.job_id == request.job_id , 
+    ).first()
+    return {
+        "job_id" : job.job_id ,
+        "status" : job.status
+    }
+
+# not alot of idea maybe if it is completed then only 
+@router.get("/{story_id}/complete" , response_model=)
     

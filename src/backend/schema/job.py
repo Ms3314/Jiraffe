@@ -16,6 +16,17 @@ class StoryJobResponse(BaseModel):
     class Config:
         from_attributes = True
         
+        
+class StoryJobStatusRequest(BaseModel):
+    job_id : int
+
+class StoryJobStatusResponse(BaseModel):
+    job_id : int 
+    status : str 
+    
+    class Config:
+        from_attributes = True
+
 # temporary        
 class StoryJobCreate(StoryJobBase):
     pass
